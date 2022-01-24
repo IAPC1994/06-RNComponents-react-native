@@ -1,7 +1,8 @@
-import React, { useState} from 'react';
+import React, { useContext, useState} from 'react';
 import { StyleSheet, TextInput, View, KeyboardAvoidingView, Platform,ScrollView, Text } from 'react-native';
 import { CustomSwitch } from '../components/CustomSwitch';
 import { HeaderTitle } from '../components/HeaderTitle';
+import { ThemeContext } from '../context/themeContext/ThemeContext';
 import { useForm } from '../hooks/useForm';
 import { styles } from '../theme/appTheme';
 
@@ -13,6 +14,8 @@ export const TextInputScreen = () => {
         phone: '',
         isSubscribed: false
     });
+
+    const { theme: { colors, dividerColor } } = useContext( ThemeContext );
 
     return (
         <KeyboardAvoidingView
@@ -27,6 +30,7 @@ export const TextInputScreen = () => {
                         autoCorrect = { false }
                         autoCapitalize='words'
                         onChangeText={( value ) => onChange(value, 'name') }
+                        placeholderTextColor={ dividerColor }
                     />
                     <TextInput 
                         style={ stylesTextInput.inputStyle }
@@ -36,16 +40,18 @@ export const TextInputScreen = () => {
                         onChangeText={( value ) => onChange(value, 'email') }
                         keyboardType='email-address'
                         keyboardAppearance='dark'
+                        placeholderTextColor={ dividerColor }
                     />
                     <TextInput 
                         style={ stylesTextInput.inputStyle }
                         placeholder='Your Phone'
                         onChangeText={( value ) => onChange(value, 'phone') }
                         keyboardType='phone-pad'
+                        placeholderTextColor={ dividerColor }
                     />
 
                     <View style={ stylesTextInput.switchRow }>
-                        <Text style={ stylesTextInput.switchText }>Subscribe</Text>
+                        <Text style={{ ...stylesTextInput.switchText, color: colors.text }}>Subscribe</Text>
                         <CustomSwitch isOn={ isSubscribed } onChange={ (value) => onChange( value, 'isSubscribed' ) } />
                     </View>
 

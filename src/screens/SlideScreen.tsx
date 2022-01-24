@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Animated, Dimensions, Image, ImageSourcePropType, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { useAnimation } from '../hooks/useAnimation';
+import { ThemeContext } from '../context/themeContext/ThemeContext';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -35,6 +36,7 @@ export const SlideScreen = () => {
 
     const [activeIndex, setActiveIndex ] = useState(0);
     const { opacity, fadeIn } = useAnimation();
+    const { theme: { colors } } = useContext( ThemeContext );
 
     const navigation = useNavigation();
 
@@ -58,8 +60,8 @@ export const SlideScreen = () => {
                     }}
                 />
 
-                <Text style={ styles.title }>{ item.title } </Text>
-                <Text style={ styles.subtitle }>{ item.desc } </Text>
+                <Text style={{ ...styles.title, color: colors.text }}>{ item.title } </Text>
+                <Text style={{ ...styles.subtitle,  color: colors.text }}>{ item.desc } </Text>
 
             </View>
         );
@@ -102,7 +104,7 @@ export const SlideScreen = () => {
                         width: 10,
                         height: 10,
                         borderRadius: 10,
-                        backgroundColor: '#5856D6'
+                        backgroundColor: colors.primary
                     }}
                 />
                 {
@@ -113,19 +115,19 @@ export const SlideScreen = () => {
                             }}
                         >
                             <TouchableOpacity
-                                style={ styles.buttonNext }
+                                style={{ ...styles.buttonNext, backgroundColor: colors.primary }}
                                 activeOpacity={ 0.8 }
                                 onPress={ () => navigation.navigate( 'HomeScreen' as never ) }
                             >
                                 <Text
                                     style={{
                                         fontSize: 25,
-                                        color: 'white'
+                                        color: colors.text
                                     }}
                                 > Next </Text>
                                 <Icon 
                                     name='chevron-forward-outline'
-                                    color='white'
+                                    color={ colors.text }
                                     size={ 30 }
                                 />
                             </TouchableOpacity>
@@ -140,15 +142,13 @@ export const SlideScreen = () => {
 const styles = StyleSheet.create({
     title:{
         fontSize: 30,
-        fontWeight: 'bold',
-        color: '#5856D6'
+        fontWeight: 'bold'
     },
     subtitle:{
         fontSize: 16,
     },
     buttonNext:{
         flexDirection: 'row',
-        backgroundColor: '#5856D6',
         width: 140,
         height: 50,
         borderRadius: 10,
